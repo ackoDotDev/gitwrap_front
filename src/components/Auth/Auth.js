@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { UserContext } from '../../contexts/UserContext';
 import Cookies from 'universal-cookie';
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
 
 function Auth() {
@@ -11,10 +12,15 @@ function Auth() {
 
     const { setUser, setLoading } = useContext(UserContext);
 
+    const fpPromise = FingerprintJS.load();
+
+
 
     useEffect(() => {
         async function findUser() {
-            await fetch('/api/auth/github/callback' + location.search, { headers: new Headers({ accept: 'application/json' }) })
+            const fp = await fpPromise
+            const result = await fp.get()
+            await fetch(`/api/auth/github/callback${location.search}&browser_id=${result.visitorId}`, { headers: new Headers({ accept: 'application/json' }) })
             .then((response) => {
                 if (response.ok) {
                     return response.json();

@@ -8,11 +8,9 @@ import "assets/scss/paper-dashboard.scss?v=1.3.0";
 import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 
-import Login from "views/Login";
 import Auth from "components/Auth/Auth";
-import PublicRoute from "components/Routes/PublicRoute";
-import PrivateRoute from "components/Routes/PrivateRoute";
-import FindUser from "hooks/FindUser/FindUser";
+import FindUser from "hooks/User/FindUser";
+import AdminLayout from "layouts/Admin.js";
 
 function App() {
   const { user, setUser, isLoading, setLoading } = FindUser();
@@ -22,10 +20,9 @@ function App() {
       <BrowserRouter>
       <UserContext.Provider value={{ user, setUser,isLoading, setLoading }}>
         <Switch>
-          <PublicRoute exact path="/login" component={Login} />
-          <PublicRoute exact path="/auth/github/callback" component={Auth} />
-          <PrivateRoute />
-          <Redirect to="/login" />
+          <Route exact path="/auth/github/callback" component={Auth} />
+          <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+          <Redirect to="/admin/dashboard" />
         </Switch>
       </UserContext.Provider>
     </BrowserRouter>
